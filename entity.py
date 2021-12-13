@@ -1,3 +1,6 @@
+from tkinter.constants import X
+
+
 class Entity():
     def __init__(self,canvas,lives,dx,dy):
         self.__lives = lives

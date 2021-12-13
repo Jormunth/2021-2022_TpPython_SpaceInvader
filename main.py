@@ -1,7 +1,8 @@
 
 from tkinter import Image, PhotoImage, Tk, Label, Button, Text, StringVar, Frame, Canvas, Entry
 from tkinter.constants import LEFT, RIGHT, TOP
-from alien import AlienStrong, AlienWeak
+from alien import AlienStrong,AlienWeak
+from player import Player, PhotoImage
 
 def m(event):
     print(event.char,a.getDx())
@@ -25,7 +26,7 @@ def l(event):
         a.setDy(0)
 
 root=Tk()
-
+    
 root.geometry("900x600")
 root.title("Space invader")
 root.config(bg="BLACK")
