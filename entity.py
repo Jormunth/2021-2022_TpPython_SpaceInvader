@@ -6,8 +6,20 @@ class Entity():
         self.__dx = dx
         self.__dy = dy
         
-    def move(self):
-        self.canvas.move(self.__object,self.__dx,self.__dy)
+    def setObj(self,obj):
+        self.__object = obj
 
-    def addObj():
-        pass
+    def getObj(self):
+        return self.__object
+
+    def getDx(self):
+        return self.__dx
+
+    def getDy(self):
+        return self.__dy
+
+    def setDx(self,x):
+        self.__dx = x
+
+    def setDy(self,y):
+        self.__dy = y
