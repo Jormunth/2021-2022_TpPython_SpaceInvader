@@ -5,7 +5,7 @@ from entity import Entity
 
 class Player(Entity):
     def __init__(self, canvas, lives):
-        super().__init__(canvas,lives,0,-50)
+        super().__init__(canvas,lives,0,-30)
 
 
 class Vaisseau(Player):
