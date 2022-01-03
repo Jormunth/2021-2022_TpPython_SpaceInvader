@@ -1,8 +1,8 @@
 
-from tkinter import Image, PhotoImage, Tk, Label, Button, Text, StringVar, Frame, Canvas, Entry
+from tkinter import Event, Image, PhotoImage, Tk, Label, Button, Text, StringVar, Frame, Canvas, Entry
 from tkinter.constants import LEFT, RIGHT, TOP
 from alien import AlienStrong,AlienWeak
-from player import Player, PhotoImage
+from player import Missile, Player, Vaisseau
 
 def m(event):
     print(event.char,a.getDx())
@@ -25,11 +25,18 @@ def l(event):
     elif event.char == "s":
         a.setDy(0)
 
+def f(event):
+    if event.char == " ":
+        print(b.getDx(),b.getDy())
+        caneva.move(b.getObj(),b.getDx(),b.getDy())
+        root.after(20,f)
+
+
 root=Tk()
-    
+     
 root.geometry("900x600")
 root.title("Space invader")
-root.config(bg="BLACK")
+root.config(bg="BLACK")    
 fond=PhotoImage(file='space.gif')
 
 frame=Frame(root, background="yellow",)
@@ -43,17 +50,31 @@ caneva.create_image(0, 0, image=fond)
 caneva.pack(side=LEFT)
 
 a = AlienWeak(caneva)
-#root.bind("<Key>", m)
-#root.bind("<KeyRelease>", l)
+b = Missile(caneva)
+
+root.bind("<Key>", m)
+root.bind("<KeyRelease>", l)
+root.bind("<Key>", f)
+
 
 bouton1= Button(root, text="START")
 bouton1.pack(pady=10)
 bouton2= Button(root, text="QUIT", command=quit)
 bouton2.pack(pady=10)
+
 def update():
     print(a.getDx(),a.getDy())
     caneva.move(a.getObj(),a.getDx(),a.getDy())
     root.after(20,update)
+
 update()
 
 root.mainloop()
+
+
+
+
+
+
+
+
