@@ -25,11 +25,14 @@ def l(event):
     elif event.char == "s":
         a.setDy(0)
 
+def update2():
+    print(b.getDx(),b.getDy())
+    caneva.move(b.getObj(),b.getDx(),b.getDy())
+    root.after(20,update2)
+
 def f(event):
     if event.char == " ":
-        print(b.getDx(),b.getDy())
-        caneva.move(b.getObj(),b.getDx(),b.getDy())
-        root.after(20,f)
+        update2()
 
 
 root=Tk()
@@ -54,7 +57,7 @@ b = Missile(caneva)
 
 root.bind("<Key>", m)
 root.bind("<KeyRelease>", l)
-root.bind("<Key>", f)
+root.bind("<KeyRelease>", f)
 
 
 bouton1= Button(root, text="START")
@@ -70,6 +73,12 @@ def update():
 update()
 
 root.mainloop()
+
+
+
+
+
+
 
 
 

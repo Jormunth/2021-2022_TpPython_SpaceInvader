@@ -5,7 +5,7 @@ from entity import Entity
 
 class Player(Entity):
     def __init__(self, canvas, lives):
-        super().__init__(canvas,lives,0,-4)
+        super().__init__(canvas,lives,0,-50)
 
 
 class Vaisseau(Player):
@@ -21,5 +21,6 @@ class Missile(Player):
         super().__init__(canvas,0)
         self.setObj(self.canvas.create_rectangle(395, 395, 405, 410,fill="orange"))   
         
+
 
 
