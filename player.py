@@ -3,24 +3,27 @@ from tkinter.constants import LEFT, RIGHT, TOP, X
 from entity import Entity
 
 
-class Player(Entity):
-    def __init__(self, canvas, lives):
-        super().__init__(canvas,lives,0,-30)
+class Vaisseau(Entity):
 
-
-class Vaisseau(Player):
-
-    def __init__(self, canvas,):
-        super().__init__(canvas,3)
-        self.setObj(self.canvas.create_rectangle(390, 390, 410, 410,fill="orange"))
+    def __init__(self, canvas, x1, y1, x2, y2):
+        super().__init__(canvas,3,0,0,x1,y1,x2,y2)
+        self.truc = self.canvas.create_rectangle(self.x1,self.y1,self.x2,self.y2,fill="orange")
+        self.setObj(self.truc)
+        
     
 
-class Missile(Player):
 
-    def __init__(self, canvas):
-        super().__init__(canvas,0)
-        self.setObj(self.canvas.create_rectangle(395, 395, 405, 410,fill="orange"))   
-        
+class Missile(Entity):
+
+    def __init__(self, canvas, x1, y1, x2, y2):
+        super().__init__(canvas,0,0,-30,x1,y1,x2,y2)
+        self.truc2 = self.canvas.create_rectangle(self.x1+15,self.y1+5,self.x2-15,self.y2-5,fill="red")
+        self.setObj(self.truc2)   
+    
+
+
+
+
 
 
 
