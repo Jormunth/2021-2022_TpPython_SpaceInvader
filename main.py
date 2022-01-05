@@ -10,53 +10,42 @@ Y1=380
 X2=420
 Y2=420
 
-def update2():
-    global b
-    #b = Missile(caneva,caneva.coords(a.truc)[0],caneva.coords(a.truc)[1],caneva.coords(a.truc)[2],caneva.coords(a.truc)[3])
-    #b = caneva.create_rectangle(caneva.coords(a.truc)[0]+15,caneva.coords(a.truc)[1]+5,caneva.coords(a.truc)[2]-15,caneva.coords(a.truc)[3]-5, fill="red")
-    #caneva.move(b.getObj(),b.getDx(),b.getDy())
-    caneva.coords(b,0,10,10,20)
-    caneva.after(5,update2)
-
-
-def m(event):
-    global b
-    if event.char == "q": 
-        if caneva.coords(a.truc)[0]<= 100:
+def keyDown(event):
+    x1,y1,x2,y2 = caneva.coords(a.getObj())
+    if event.char == "q" or event.char == "a":
+        if x1 <= 0:
             a.setDx(0)
         else:
             a.setDx(-10)
     elif event.char == "d":
-        if caneva.coords(a.truc)[0]>= 700:
+        if x2 >= caneva.winfo_width() :
             a.setDx(0)
         else:
             a.setDx(10)
-    if event.char == "z": 
-        if caneva.coords(a.truc)[1]<= 10:
+    if event.char == "z" or event.char == "w":
+        if y1 <= 0:
             a.setDy(0)
         else:
             a.setDy(-10)
     elif event.char == "s":
-        if caneva.coords(a.truc)[1]>= 500:
+        if y2 >= caneva.winfo_height() :
             a.setDy(0)
         else:
             a.setDy(10)
     if event.char == " ":
-        b = Missile(caneva,caneva.coords(a.truc)[0],caneva.coords(a.truc)[1],caneva.coords(a.truc)[2],caneva.coords(a.truc)[3])
-        #b = caneva.create_rectangle(caneva.coords(a.truc)[0]+15,caneva.coords(a.truc)[1]+5,caneva.coords(a.truc)[2]-15,caneva.coords(a.truc)[3]-5, fill="red")
-        update2()
+        b = Missile(root,caneva,x1,y1,x2,y2)
+        b.update()
         
-def l(event):
-
-    if event.char == "q": 
+def keyUp(event):
+    if event.char == "q" or event.char == "a" and a.getDx() < 0 : 
         a.setDx(0)
-    elif event.char == "d":
+    if event.char == "d" and a.getDx() > 0 : 
         a.setDx(0)
-    if event.char == "z": 
+    if event.char == "z" or event.char == "w" and a.getDy() < 0 : 
         a.setDy(0)
-    elif event.char == "s":
-        a.setDy(0)   
-        
+    if event.char == "s" and a.getDy() > 0 : 
+        a.setDy(0)
+
 root.geometry("900x600")
 root.title("Space invader")
 root.config(bg="BLACK")    
@@ -72,29 +61,14 @@ caneva=Canvas(root, height=500, width=800)
 caneva.create_image(0, 0, image=fond)
 caneva.pack(side=LEFT)
 
-a = Vaisseau(caneva,X1,Y1,X2,Y2)
-b = 0
-root.bind("<Key>", m)
-root.bind("<KeyRelease>", l)
+a = Vaisseau(root,caneva,X1,Y1,X2,Y2)
+a.update()
+root.bind("<Key>", keyDown)
+root.bind("<KeyRelease>", keyUp)
 
 bouton1= Button(root, text="START")
 bouton1.pack(pady=10)
 bouton2= Button(root, text="QUIT", command=quit)
 bouton2.pack(pady=10)
 
-
-def update():
-    print(a.getDx(),a.getDy())
-    caneva.move(a.getObj(),a.getDx(),a.getDy())
-    print(caneva.coords(a.truc))    
-    caneva.after(50,update)
-
-update()
-
-
 root.mainloop()
-
-
-
-
-
