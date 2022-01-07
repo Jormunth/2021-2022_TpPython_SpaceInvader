@@ -1,14 +1,10 @@
 
 from tkinter import Event, Image, PhotoImage, Tk, Label, Button, Text, StringVar, Frame, Canvas, Entry
 from tkinter.constants import LEFT, RIGHT, TOP
-from alien import AlienStrong,AlienWeak
+from alien import AlienWeak
 from player import Missile, Vaisseau
 
 root=Tk()
-X1=380
-Y1=380
-X2=420
-Y2=420
 
 def keyDown(event):
     x1,y1,x2,y2 = caneva.coords(a.getObj())
@@ -32,8 +28,9 @@ def keyDown(event):
             a.setDy(0)
         else:
             a.setDy(10)
+        
     if event.char == " ":
-        b = Missile(root,caneva,x1,y1,x2,y2)
+        b = Missile(root,caneva,x1,y1,x2,y2,l)
         b.update()
         
 def keyUp(event):
@@ -45,6 +42,7 @@ def keyUp(event):
         a.setDy(0)
     if event.char == "s" and a.getDy() > 0 : 
         a.setDy(0)
+    
 
 root.geometry("900x600")
 root.title("Space invader")
@@ -61,8 +59,39 @@ caneva=Canvas(root, height=500, width=800)
 caneva.create_image(0, 0, image=fond)
 caneva.pack(side=LEFT)
 
-a = Vaisseau(root,caneva,X1,Y1,X2,Y2)
+X1=caneva.winfo_width() + 10
+Y1=caneva.winfo_height() + 10
+X2=caneva.winfo_width() + 10
+Y2=caneva.winfo_height() + 10
+
+
+a = Vaisseau(root,caneva,X1+300,Y1+400,X2+300,Y2+400)
+A1 = AlienWeak(root,caneva,X1,Y1,X2,Y2)
+A2 = AlienWeak(root,caneva,X1+40,Y1,X2+40,Y2)
+A3 = AlienWeak(root,caneva,X1+80,Y1,X2+80,Y2)
+A4 = AlienWeak(root,caneva,X1+120,Y1,X2+120,Y2)
+
+l=[A1.getObj(),A2.getObj(),A3.getObj(),A4.getObj()]
+
+#def creennemi():
+    #nb=0
+    #A1 = AlienWeak(root,caneva,X1+40*nb,Y1,X2+40*nb,Y2)
+    #A1.update()
+    #while nb <= A1.getnb():
+     #   nb+=1
+      #  A1 = AlienWeak(root,caneva,X1+40*nb,Y1,X2+40*nb,Y2)
+       # A1.update()   
+    
+    #return A1
+
 a.update()
+A1.update()
+A2.update()
+A3.update()
+A4.update()
+#creennemi()
+    
+
 root.bind("<Key>", keyDown)
 root.bind("<KeyRelease>", keyUp)
 
@@ -72,3 +101,18 @@ bouton2= Button(root, text="QUIT", command=quit)
 bouton2.pack(pady=10)
 
 root.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
