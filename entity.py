@@ -2,8 +2,8 @@ from tkinter.constants import X
 
 
 class Entity():
-    def __init__(self,root,canvas,lives,dx,dy,X1,Y1,X2,Y2):
-        self.__lives = lives
+    def __init__(self,root,canvas,lives,dx,dy,X1,Y1,X2,Y2,nb):
+        self.lives = lives
         self.root = root
         self.canvas = canvas
         self.__object = None
@@ -13,12 +13,22 @@ class Entity():
         self.y1 = Y1
         self.x2 = X2
         self.y2 = Y2
+        self.nb = nb
+
+    def getnb(self):
+        return self.nb 
+
+    def setlives(self,vie):
+        self.lives = vie
         
     def setObj(self,obj):
         self.__object = obj
 
     def getObj(self):
-        return self.__object
+        if self.__object == None:
+            return False
+        else:
+            return self.__object
 
     def getDx(self):
         return self.__dx
@@ -37,8 +47,8 @@ class Entity():
         self.root.after(20,lambda : self.update())
 
     def inBounds(self):
-        x1,y1,x2,y2 = self.canvas.coords(self.getObj())
-        if x2 < 0 or x1 > self.canvas.winfo_width() :
+        s1,y1,x2,y2 = self.canvas.coords(self.getObj())
+        if x2 < 0 or s1 > self.canvas.winfo_width() :
             print("out of bounds X")
             return False
         if y2 < 0 or y1 > self.canvas.winfo_height() :
@@ -47,8 +57,29 @@ class Entity():
         return True
 
     def destroy(self):
-        x1,y1,x2,y2 = self.canvas.coords(self.getObj())
-        print(x1,y1,x2,y2)
+    
         print("obj destroyed")
         self.canvas.delete(self.getObj())
         del self
+    
+    def hitbox(self,x):
+
+        if self.canvas.coords(x) == []:
+            return False
+        else:
+            z1,y1,x2,y2 = self.canvas.coords(self.getObj())
+       
+        if self.canvas.coords(x) == []:
+            return False
+        
+        else:
+            a1,b1,a2,b2 = self.canvas.coords(x)
+        
+        if z1 < a2 and x2 > a1 and y1 < b2 and y2 > b1:
+            return True
+
+    def tuer(self,p):
+        self.canvas.delete(p)
+        del self
+            
+        
