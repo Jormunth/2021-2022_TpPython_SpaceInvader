@@ -35,6 +35,7 @@ class Missile(Entity):
     def update(self):
         # print(self.getDx(),self.getDy())
         self.canvas.move(self.getObj(),self.getDx(),self.getDy())
+        x1,y1,x2,y2 = self.canvas.coords(self.getObj())
         if not self.inBounds() :
             self.destroy()
             return

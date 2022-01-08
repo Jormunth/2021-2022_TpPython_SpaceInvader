@@ -63,6 +63,7 @@ caneva.pack(side=LEFT)
 
 a = Vaisseau(root,caneva,X1,Y1,X2,Y2)
 a.update()
+
 root.bind("<Key>", keyDown)
 root.bind("<KeyRelease>", keyUp)
 
