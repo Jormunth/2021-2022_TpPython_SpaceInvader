@@ -2,8 +2,8 @@ from entity import Entity
 from tkinter import Canvas
 
 class Alien(Entity):
-    def __init__(self,root,canvas, lives,x1,y1,x2,y2):
-        super().__init__(root,canvas,lives,5,0,x1,y1,x2,y2,4)
+    def __init__(self,root,canvas, lives,):
+        super().__init__(root,canvas,lives,5,0,0)
         self.compte = 1
         
 
@@ -46,16 +46,16 @@ class Alien(Entity):
         self.root.after(40,lambda : self.update())
 
 class AlienWeak(Alien):
-    def __init__(self, root, canvas,x1,y1,x2,y2):
-        super().__init__(root,canvas,3,x1,y1,x2,y2)
-        obj = self.canvas.create_rectangle(self.x1,self.y1,self.x2+30,self.y2+30,fill="green")
+    def __init__(self, root, canvas,x1,y1):
+        super().__init__(root,canvas,3)
+        obj = self.canvas.create_rectangle(x1,y1,x1+30,y1+30,fill="green")
         self.setObj(obj)
         
         
 #class AlienStrong(Alien):
  #   def __init__(self, root, canvas,x1,y1,x2,y2):
  #       super().__init__(root,canvas,10,x1,y1,x2,y2)
-  #      self.__object = self.canvas.create_rectangle(0, 0, 10, 10,fill="red")
+ #       self.__object = self.canvas.create_rectangle(0, 0, 10, 10,fill="red")
 
 
 

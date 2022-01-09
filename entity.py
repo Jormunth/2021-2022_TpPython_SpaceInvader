@@ -2,17 +2,13 @@ from tkinter.constants import X
 
 
 class Entity():
-    def __init__(self,root,canvas,lives,dx,dy,X1,Y1,X2,Y2,nb):
+    def __init__(self,root,canvas,lives,dx,dy,nb):
         self.lives = lives
         self.root = root
         self.canvas = canvas
         self.__object = None
         self.__dx = dx
         self.__dy = dy
-        self.x1 = X1
-        self.y1 = Y1
-        self.x2 = X2
-        self.y2 = Y2
         self.nb = nb
 
     def getnb(self):
@@ -64,14 +60,13 @@ class Entity():
     
     def hitbox(self,x):
 
-        if self.canvas.coords(x) == []:
+        if self.canvas.coords(self.getObj()) == []:
             return False
         else:
             z1,y1,x2,y2 = self.canvas.coords(self.getObj())
        
         if self.canvas.coords(x) == []:
             return False
-        
         else:
             a1,b1,a2,b2 = self.canvas.coords(x)
         

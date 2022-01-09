@@ -6,9 +6,9 @@ from alien import AlienWeak
 
 class Vaisseau(Entity):
 
-    def __init__(self, root, canvas, x1, y1, x2, y2):
-        super().__init__(root,canvas,3,0,0,x1,y1,x2,y2,0)
-        obj = self.canvas.create_rectangle(self.x1,self.y1,self.x2+40,self.y2+40,fill="orange")
+    def __init__(self, root, canvas, x1, y1):
+        super().__init__(root,canvas,3,0,0,0)
+        obj = self.canvas.create_rectangle(x1,y1,x1+40,y1+40,fill="orange")
         self.setObj(obj)
         
 
@@ -29,9 +29,9 @@ class Vaisseau(Entity):
         
 class Missile(Entity):
 
-    def __init__(self, root, canvas, x1, y1, x2, y2,EV):
-        super().__init__(root,canvas,1,0,-10,x1,y1,x2,y2,EV)
-        obj = self.canvas.create_rectangle(self.x1+17,self.y1+5,self.x2-17,self.y2-5,fill="red")
+    def __init__(self, root, canvas, x1, y1,EV):
+        super().__init__(root,canvas,1,0,-10,EV)
+        obj = self.canvas.create_rectangle(x1+17,y1+5,x1-17+40,y1-5+40,fill="red")
         self.setObj(obj)
         self.EV = EV
         
