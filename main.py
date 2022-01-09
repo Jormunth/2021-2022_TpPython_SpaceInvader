@@ -49,7 +49,7 @@ caneva=Canvas(root, height=500, width=800)
 caneva.create_image(0, 0, image=fond)
 caneva.pack(side=LEFT)
 
-game = Game(root,caneva,txt)
+game = Game(root,caneva,text1)
 
 root.bind("<Key>", keyDown)
 root.bind("<KeyRelease>", keyUp)
