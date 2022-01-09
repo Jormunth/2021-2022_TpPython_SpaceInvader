@@ -55,6 +55,7 @@ A4 = AlienWeak(root,caneva,X1+120,Y1)
 l=[A1.getObj(),A2.getObj(),A3.getObj(),A4.getObj()]
 
 a.update()
+
 A1.update()
 A2.update()
 A3.update()
