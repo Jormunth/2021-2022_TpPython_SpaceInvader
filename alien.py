@@ -2,6 +2,7 @@ from entity import Entity
 from tkinter import Canvas
 
 class Alien(Entity):
+    
     def __init__(self,game, lives):
         super().__init__(game,lives,5,0,4)
         self.compte = 1
@@ -46,12 +47,14 @@ class Alien(Entity):
         self.game.getRoot().after(40,lambda : self.update())
 
 class AlienWeak(Alien):
+    
     def __init__(self, game,x,y):
         super().__init__(game,3)
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="#1f1")
         self.setObj(obj)
         
 class AlienStrong(Alien):
+    
    def __init__(self, game,x,y):
         super().__init__(game,10)
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="green")

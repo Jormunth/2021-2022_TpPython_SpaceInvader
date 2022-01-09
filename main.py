@@ -20,32 +20,16 @@ def keyDown(event):
             a.setDx(0)
         else:
             a.setDx(10)
-    if event.char == "z" or event.char == "w":
-        if y1 <= 0:
-            a.setDy(0)
-        else:
-            a.setDy(-10)
-    elif event.char == "s":
-        if y2 >= caneva.winfo_height() :
-            a.setDy(0)
-        else:
-            a.setDy(10)
-        
     if event.char == " ":
         b = Missile(game,x1,y1,[])
         b.update()
-        
+    
 def keyUp(event):
     a = game.getVaisseau()
     if event.char == "q" or event.char == "a" and a.getDx() < 0 : 
         a.setDx(0)
     if event.char == "d" and a.getDx() > 0 : 
         a.setDx(0)
-    if event.char == "z" or event.char == "w" and a.getDy() < 0 : 
-        a.setDy(0)
-    if event.char == "s" and a.getDy() > 0 : 
-        a.setDy(0)
-    
 
 root.geometry("900x600")
 root.title("Space invader")

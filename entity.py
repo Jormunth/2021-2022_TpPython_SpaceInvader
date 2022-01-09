@@ -2,6 +2,7 @@ from tkinter.constants import X
 
 
 class Entity():
+    
     def __init__(self,game,lives,dx,dy,nb):
         self.lives = lives
         self.game = game
@@ -58,15 +59,13 @@ class Entity():
         del self
     
     def hitbox(self,x):
-
-        if self.game.getCanvas().coords(x) == []:
+        if self.game.getCanvas().coords(self.getObj()) == []:
             return False
         else:
             z1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
        
         if self.game.getCanvas().coords(x) == []:
             return False
-        
         else:
             a1,b1,a2,b2 = self.game.getCanvas().coords(x)
         
