@@ -1,6 +1,7 @@
 from entity import Entity
 from tkinter import Canvas
 
+
 class Alien(Entity):
     
     def __init__(self,game, lives):
@@ -11,10 +12,6 @@ class Alien(Entity):
         canvas=self.game.getCanvas()
         canvas.move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = canvas.coords(self.getObj())
-
-        #if self.hitbox(self.EV) == True:
-            #self.destroy()
-            #return 
 
         if x1 <= 0 :
             self.setDx(0)
@@ -52,7 +49,14 @@ class AlienWeak(Alien):
         super().__init__(game,3)
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="#1f1")
         self.setObj(obj)
-        
+
+    def destroy(self):
+
+        print("obj destroyed")
+        self.game.getCanvas().delete(self.getObj())
+        self.game.setscore(10)
+        del self
+    
 class AlienStrong(Alien):
 
    def __init__(self, game,x,y):
@@ -60,5 +64,10 @@ class AlienStrong(Alien):
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="green")
         self.setObj(obj)
 
-
+   def destroy(self):
+        print("obj destroyed")
+        self.game.getCanvas().delete(self.getObj())
+        self.game.setscore(20)
+        del self
+    
 

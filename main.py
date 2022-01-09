@@ -39,14 +39,14 @@ fond=PhotoImage(file='space.gif')
 frame=Frame(root, background="yellow",)
 frame.pack(side='top')
 
-Lab1= Label(frame, text="score:").pack(side='left')
+Lab1= Label(frame, text="score: 0").pack(side='left')
 Lab2= Label(frame,text="lives").pack(side='right')
 
 caneva=Canvas(root, height=500, width=800)
 caneva.create_image(0, 0, image=fond)
 caneva.pack(side=LEFT)
 
-game = Game(root,caneva)
+game = Game(root,caneva,Lab1)
 
 root.bind("<Key>", keyDown)
 root.bind("<KeyRelease>", keyUp)
@@ -57,3 +57,6 @@ bouton2= Button(root, text="QUIT", command=quit)
 bouton2.pack(pady=10)
 
 root.mainloop()
+
+
+
