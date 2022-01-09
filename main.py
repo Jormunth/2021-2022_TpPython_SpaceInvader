@@ -39,9 +39,10 @@ fond=PhotoImage(file='space.gif')
 frame=Frame(root, background="yellow",)
 frame.pack(side='top')
 
-txt=StringVar()
-txt.set("score: 0")
-Lab1= Label(frame, textvariable=txt).pack(side='left')
+text1 = StringVar()
+text1.set("score: 0")
+Lab1= Label(frame, textvariable=text1).pack(side='left')
+
 Lab2= Label(frame,text="lives").pack(side='right')
 
 caneva=Canvas(root, height=500, width=800)
@@ -59,6 +60,4 @@ bouton2= Button(root, text="QUIT", command=quit)
 bouton2.pack(pady=10)
 
 root.mainloop()
-
-
 
