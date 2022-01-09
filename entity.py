@@ -2,17 +2,12 @@ from tkinter.constants import X
 
 
 class Entity():
-    def __init__(self,root,canvas,lives,dx,dy,X1,Y1,X2,Y2,nb):
+    def __init__(self,game,lives,dx,dy,nb):
         self.lives = lives
-        self.root = root
-        self.canvas = canvas
+        self.game = game
         self.__object = None
         self.__dx = dx
         self.__dy = dy
-        self.x1 = X1
-        self.y1 = Y1
-        self.x2 = X2
-        self.y2 = Y2
         self.nb = nb
 
     def getnb(self):
@@ -43,15 +38,15 @@ class Entity():
         self.__dy = y
 
     def update(self):
-        self.canvas.move(self.getObj(),self.getDx(),self.getDy())
-        self.root.after(20,lambda : self.update())
+        self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
+        self.game.getRoot().after(20,lambda : self.update())
 
     def inBounds(self):
-        s1,y1,x2,y2 = self.canvas.coords(self.getObj())
-        if x2 < 0 or s1 > self.canvas.winfo_width() :
+        s1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
+        if x2 < 0 or s1 > self.game.getCanvas().winfo_width() :
             print("out of bounds X")
             return False
-        if y2 < 0 or y1 > self.canvas.winfo_height() :
+        if y2 < 0 or y1 > self.game.getCanvas().winfo_height() :
             print("out of bounds Y")
             return False
         return True
@@ -59,27 +54,27 @@ class Entity():
     def destroy(self):
     
         print("obj destroyed")
-        self.canvas.delete(self.getObj())
+        self.game.getCanvas().delete(self.getObj())
         del self
     
     def hitbox(self,x):
 
-        if self.canvas.coords(x) == []:
+        if self.game.getCanvas().coords(x) == []:
             return False
         else:
-            z1,y1,x2,y2 = self.canvas.coords(self.getObj())
+            z1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
        
-        if self.canvas.coords(x) == []:
+        if self.game.getCanvas().coords(x) == []:
             return False
         
         else:
-            a1,b1,a2,b2 = self.canvas.coords(x)
+            a1,b1,a2,b2 = self.game.getCanvas().coords(x)
         
         if z1 < a2 and x2 > a1 and y1 < b2 and y2 > b1:
             return True
 
     def tuer(self,p):
-        self.canvas.delete(p)
+        self.game.getCanvas().delete(p)
         del self
             
         

@@ -6,40 +6,47 @@ from alien import AlienWeak
 
 class Vaisseau(Entity):
 
-    def __init__(self, root, canvas, x1, y1, x2, y2):
-        super().__init__(root,canvas,3,0,0,x1,y1,x2,y2,0)
-        obj = self.canvas.create_rectangle(self.x1,self.y1,self.x2+40,self.y2+40,fill="orange")
+    def __init__(self, game, x, y):
+        super().__init__(game,3,0,0,0)
+        obj = self.game.getCanvas().create_rectangle(x,y,x+40,y+40,fill="orange")
         self.setObj(obj)
         
-
     def update(self):
-        self.canvas.move(self.getObj(),self.getDx(),self.getDy())
-        x1,y1,x2,y2 = self.canvas.coords(self.getObj())
+        print("==",self.getDx(),self.getDy())
+        canvas = self.game.getCanvas()
+        canvas.move(self.getObj(),self.getDx(),self.getDy())
+        x1,y1,x2,y2 = canvas.coords(self.getObj())
         if x1 < 0 :
-            self.canvas.coords(self.getObj(),0,y1,40,y2)
-        elif x2 > self.canvas.winfo_width() :
-            self.canvas.coords(self.getObj(),760,y1,800,y2)
+            canvas.coords(self.getObj(),0,y1,40,y2)
+        elif x2 > canvas.winfo_width() :
+            canvas.coords(self.getObj(),760,y1,800,y2)
         if y1 < 0 :
-            self.canvas.coords(self.getObj(),x1,0,x2,40)
-        if y2 > self.canvas.winfo_height() :
-            self.canvas.coords(self.getObj(),x1,460,x2,500)
+            canvas.coords(self.getObj(),x1,0,x2,40)
+        if y2 > canvas.winfo_height() :
+            canvas.coords(self.getObj(),x1,460,x2,500)
 
         
-        self.root.after(20,lambda : self.update())
+        self.game.getRoot().after(20,lambda : self.update())
         
+    def destroy(self):
+        print("obj destroyed")
+        # game.gameOver()
+        self.game.getCanvas().delete(self.getObj())
+        del self
+
 class Missile(Entity):
 
-    def __init__(self, root, canvas, x1, y1, x2, y2,EV):
-        super().__init__(root,canvas,1,0,-10,x1,y1,x2,y2,EV)
-        obj = self.canvas.create_rectangle(self.x1+17,self.y1+5,self.x2-17,self.y2-5,fill="red")
+    def __init__(self, game, x, y, EV):
+        super().__init__(game,1,0,-17,EV)
+        obj = self.game.getCanvas().create_rectangle(x+5,y+17,x-5,y-17,fill="red")
         self.setObj(obj)
         self.EV = EV
         
     def update(self):
-        self.canvas.move(self.getObj(),self.getDx(),self.getDy())
-        x1,y1,x2,y2 = self.canvas.coords(self.getObj())
+        self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
+        x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
 
-        for i in self.EV:
+        for i in self.game.getAliens():
 
             if self.hitbox(i) == True:
                 self.destroy()
@@ -50,7 +57,5 @@ class Missile(Entity):
             self.destroy()
             return
 
-        self.root.after(5,lambda : self.update())
-
-
+        self.game.getRoot().after(5,lambda : self.update())
 
