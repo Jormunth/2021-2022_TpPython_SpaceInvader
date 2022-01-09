@@ -2,14 +2,13 @@ from alien import AlienWeak, AlienStrong
 from player import Vaisseau
 
 class Game():
-    def __init__(self,root,canvas,label):
+    def __init__(self,root,canvas,t):
         self.__aliens = []
         self.root = root
         self.canvas = canvas
         self.__score = 0
         self.vaisseau = None
-        self.label = label
-        print(self.label)
+        self.txt = t
 
     def addEntity(self,entity,x,y):
         if entity == "alienW":
@@ -33,7 +32,8 @@ class Game():
     
     def setscore(self,score):
         self.__score += score
-        self.label.config(text= "score:" + str(self.__score))
+        print(self.txt)
+        self.txt.set("score:" + str(self.__score))
 
     def destroyAlien(self,a):
         self.__aliens.remove(a)
