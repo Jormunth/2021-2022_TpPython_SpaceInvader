@@ -35,6 +35,10 @@ class Game():
         self.__score += score
         self.label.config(text= "score:" + str(self.__score))
 
+    def destroyAlien(self,a):
+        self.__aliens.remove(a)
+        a.destroy()
+
     def startGame(self):
         self.vaisseau = Vaisseau(self, self.canvas.winfo_width()/2-20, self.canvas.winfo_height()-41)
         self.vaisseau.update()
