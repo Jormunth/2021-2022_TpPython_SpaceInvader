@@ -46,19 +46,12 @@ caneva=Canvas(root, height=500, width=800)
 caneva.create_image(0, 0, image=fond)
 caneva.pack(side=LEFT)
 
-X=10
-Y=10
-
 game = Game(root,caneva)
-game.addEntity("alienW", X,Y)
-game.addEntity("alienW", X+40,Y)
-game.addEntity("alienW", X+80,Y)
-game.addEntity("alienS", X+120,Y)
 
 root.bind("<Key>", keyDown)
 root.bind("<KeyRelease>", keyUp)
 
-bouton1= Button(root, text="START")
+bouton1= Button(root, text="START", command=lambda: game.startGame())
 bouton1.pack(pady=10)
 bouton2= Button(root, text="QUIT", command=quit)
 bouton2.pack(pady=10)
