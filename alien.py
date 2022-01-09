@@ -54,7 +54,7 @@ class AlienWeak(Alien):
         self.setObj(obj)
         
 class AlienStrong(Alien):
-    
+
    def __init__(self, game,x,y):
         super().__init__(game,10)
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="green")

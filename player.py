@@ -12,7 +12,6 @@ class Vaisseau(Entity):
         self.setObj(obj)
         
     def update(self):
-        print("==",self.getDx(),self.getDy())
         canvas = self.game.getCanvas()
         canvas.move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = canvas.coords(self.getObj())
