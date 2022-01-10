@@ -8,13 +8,16 @@ from player import MissileAlien, MissileVaisseau
 class Alien(Entity):
     
     def __init__(self,game, lives):
-        super().__init__(game,lives,5,0,4)
+        super().__init__(game,lives,5,0)
         self.compte = 1
         self.comptetire = 0
         self.rand = 1
 
     def update(self):
         canvas=self.game.getCanvas()
+        if canvas.coords(self.getObj()) == []:
+            return
+
         canvas.move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = canvas.coords(self.getObj())
 
@@ -22,7 +25,7 @@ class Alien(Entity):
             self.rand = randint(10,90)
 
         if self.comptetire == self.rand:
-            b=MissileAlien(self.game,x1,y1,self.game.getVaisseau().getObj())
+            b=MissileAlien(self.game,x1,y1)
             b.update()
             self.comptetire = 0
 
@@ -55,6 +58,10 @@ class Alien(Entity):
             self.destroy()
         self.comptetire += 1
         self.game.getRoot().after(40,lambda : self.update())
+
+    def destroy(self):
+        self.game.removeAlien(self)
+        super().destroy()
 
 class AlienWeak(Alien):
     

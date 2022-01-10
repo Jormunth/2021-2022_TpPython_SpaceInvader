@@ -35,6 +35,9 @@ class Game():
         self.__score += score
         self.txt.set("score:" + str(self.__score))
 
+    def removeAlien(self,a):
+        self.__aliens.remove(a)
+
     def destroyAlien(self,a):
         self.__aliens.remove(a)
         a.destroy()

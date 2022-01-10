@@ -7,7 +7,7 @@ from entity import Entity
 class Vaisseau(Entity):
 
     def __init__(self, game, x, y):
-        super().__init__(game,3,0,0,0)
+        super().__init__(game,3,0,0)
         obj = self.game.getCanvas().create_rectangle(x,y,x+40,y+40,fill="orange")
         self.setObj(obj)
         
@@ -35,27 +35,27 @@ class Vaisseau(Entity):
 
 class Missile(Entity):
 
-    def __init__(self,game,x,y,EV):
-        super().__init__(game,1,x,y,EV)
+    def __init__(self,game,x,y):
+        super().__init__(game,1,x,y)
 
 class MissileVaisseau(Missile):
 
-    def __init__(self, game, x, y, EV):
-        super().__init__(game,0,-10,EV)
+    def __init__(self, game, x, y):
+        super().__init__(game,0,-10)
         obj = self.game.getCanvas().create_rectangle(x+23,y+17,x-3+20,y-17,fill="red")
         self.setObj(obj)
-        self.EV = EV
         
     def update(self):
+        print(self.getDy())
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
         for a in self.game.getAliens():
-            tagA = self.game.getCanvas().find_withtag(a.getObj())[0]
-            print(tagA in self.game.getCanvas().find_overlapping(x1,y1,x2,y2))
-            if tagA in self.game.getCanvas().find_overlapping(x1,y1,x2,y2):
-                self.game.destroyAlien(a)
-                self.destroy()
-                return
+            if self.game.getCanvas().find_withtag(a.getObj()) != ():
+                tagA = self.game.getCanvas().find_withtag(a.getObj())[0]
+                if tagA in self.game.getCanvas().find_overlapping(x1,y1,x2,y2):
+                    a.removeLives(1)
+                    self.destroy()
+                    return
 
         if not self.inBounds():
             self.destroy()
@@ -65,11 +65,11 @@ class MissileVaisseau(Missile):
 
 class MissileAlien(Missile):
 
-    def __init__(self, game, x, y, EV):
-        super().__init__(game,0,3,EV)
-        obj = self.game.getCanvas().create_oval(x+10,y+30,x+20,y+36, fill= 'yellow')
+
+    def __init__(self, game, x, y):
+        super().__init__(game,0,5)
+        obj = self.game.getCanvas().create_oval(x+12,y+30,x+18,y+36, fill= 'yellow')
         self.setObj(obj)
-        self.EV = EV
 
     def update(self):
 
@@ -89,7 +89,7 @@ class MissileAlien(Missile):
             #self.game.destroyVaisseau()
             #self.destroy()
             #return
-        if self.hitbox(self.EV) == True:
+        if self.hitbox( self.game.getVaisseau().getObj() ) == True:
             self.game.destroyVaisseau()
             self.destroy()
             return
