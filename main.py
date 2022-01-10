@@ -2,7 +2,7 @@
 from tkinter import Event, Image, PhotoImage, Tk, Label, Button, Text, StringVar, Frame, Canvas, Entry
 from tkinter.constants import LEFT, RIGHT, TOP
 from alien import AlienWeak, AlienStrong
-from player import Missile, Vaisseau
+from player import Missile, Vaisseau, MissileVaisseau, MissileAlien
 from game import Game
 
 root=Tk()
@@ -21,8 +21,9 @@ def keyDown(event):
         else:
             a.setDx(10)
     if event.char == " ":
-        b = Missile(game,x1+a.getWidth()/2,y1,[])
+        b = MissileVaisseau(game,x1+a.getWidth()/2,y1,[])
         b.update()
+    
     
 def keyUp(event):
     a = game.getVaisseau()
@@ -60,4 +61,6 @@ bouton2= Button(root, text="QUIT", command=quit)
 bouton2.pack(pady=10)
 
 root.mainloop()
+
+
 

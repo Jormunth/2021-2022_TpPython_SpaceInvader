@@ -3,16 +3,12 @@ from tkinter.constants import X
 
 class Entity():
     
-    def __init__(self,game,lives,dx,dy,nb):
+    def __init__(self,game,lives,dx,dy):
         self.lives = lives
         self.game = game
         self.__object = None
         self.__dx = dx
         self.__dy = dy
-        self.nb = nb
-
-    def getnb(self):
-        return self.nb 
 
     def setlives(self,vie):
         self.lives = vie
@@ -73,5 +69,21 @@ class Entity():
         print(self.lives)
         if self.lives == 0:
             self.destroy()
+
+    # Returns true if the self is on top of an alien
+    def hitbox(self,x):
+        if self.game.getCanvas().coords(self.getObj()) == []:
+            return False
+        else:
+            x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
+       
+        if self.game.getCanvas().coords(x) == []:
+            return False
+        else:
+            a1,b1,a2,b2 = self.game.getCanvas().coords(x)
+        
+        if x1 < a2 and x2 > a1 and y1 < b2 and y2 > b1:
+            return True
+            
         
 

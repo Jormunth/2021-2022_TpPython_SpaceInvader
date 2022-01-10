@@ -41,6 +41,9 @@ class Game():
     def destroyAlien(self,a):
         self.__aliens.remove(a)
         a.destroy()
+    
+    def destroyVaisseau(self):
+        self.vaisseau.destroy()
 
     def startGame(self):
         self.vaisseau = Vaisseau(self, self.canvas.winfo_width()/2-20, self.canvas.winfo_height()-41)
@@ -51,3 +54,5 @@ class Game():
         self.addEntity("alienW", X+40,Y)
         self.addEntity("alienW", X+80,Y)
         self.addEntity("alienS", X+120,Y)
+        self.addEntity("alienS", X+160,Y)
+
