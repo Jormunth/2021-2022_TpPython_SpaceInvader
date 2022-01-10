@@ -10,6 +10,9 @@ class Alien(Entity):
 
     def update(self):
         canvas=self.game.getCanvas()
+        if canvas.coords(self.getObj()) == []:
+            return
+
         canvas.move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = canvas.coords(self.getObj())
 
@@ -43,6 +46,10 @@ class Alien(Entity):
 
         self.game.getRoot().after(40,lambda : self.update())
 
+    def destroy(self):
+        self.game.removeAlien(self)
+        super().destroy()
+
 class AlienWeak(Alien):
     
     def __init__(self, game,x,y):
@@ -70,4 +77,3 @@ class AlienStrong(Alien):
         self.game.setscore(20)
         del self
     
-

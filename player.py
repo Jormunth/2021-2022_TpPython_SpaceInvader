@@ -42,15 +42,16 @@ class Missile(Entity):
         self.EV = EV
         
     def update(self):
+        print(self.getDy())
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
         for a in self.game.getAliens():
-            tagA = self.game.getCanvas().find_withtag(a.getObj())[0]
-            print(tagA in self.game.getCanvas().find_overlapping(x1,y1,x2,y2))
-            if tagA in self.game.getCanvas().find_overlapping(x1,y1,x2,y2):
-                self.game.destroyAlien(a)
-                self.destroy()
-                return
+            if self.game.getCanvas().find_withtag(a.getObj()) != ():
+                tagA = self.game.getCanvas().find_withtag(a.getObj())[0]
+                if tagA in self.game.getCanvas().find_overlapping(x1,y1,x2,y2):
+                    a.removeLives(1)
+                    self.destroy()
+                    return
 
         if not self.inBounds():
             self.destroy()

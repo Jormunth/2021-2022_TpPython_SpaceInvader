@@ -21,7 +21,7 @@ def keyDown(event):
         else:
             a.setDx(10)
     if event.char == " ":
-        b = Missile(game,x1,y1,[])
+        b = Missile(game,x1+a.getWidth()/2,y1,[])
         b.update()
     
 def keyUp(event):
