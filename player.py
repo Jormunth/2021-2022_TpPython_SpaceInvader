@@ -14,6 +14,8 @@ class Vaisseau(Entity):
     def update(self):
         canvas = self.game.getCanvas()
         canvas.move(self.getObj(),self.getDx(),self.getDy())
+        if canvas.coords(self.getObj()) == []:
+            return
         x1,y1,x2,y2 = canvas.coords(self.getObj())
         if x1 < 0 :
             canvas.coords(self.getObj(),0,y1,40,y2)
@@ -46,7 +48,8 @@ class MissileVaisseau(Missile):
         self.setObj(obj)
         
     def update(self):
-        print(self.getDy())
+        if self.game.getStatus() == "gameOver":
+            self.destroy()
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
         for a in self.game.getAliens():
@@ -71,6 +74,9 @@ class MissileAlien(Missile):
         self.setObj(obj)
 
     def update(self):
+        if self.game.getStatus() == "stopped":
+            self.destroy()
+
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         #x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
         #tagV = self.game.getCanvas().find_overlapping(self.game.getVaisseau().getObj())
@@ -80,10 +86,11 @@ class MissileAlien(Missile):
             #return
         if self.hitbox( self.game.getVaisseau().getObj() ) == True:
             self.game.destroyVaisseau()
+            self.game.gameOver()
             self.destroy()
             return
         
-        self.game.getRoot().after(5,lambda : self.update())
+        self.game.getRoot().after(10,lambda : self.update())
 
 
 class Bloc(Entity):

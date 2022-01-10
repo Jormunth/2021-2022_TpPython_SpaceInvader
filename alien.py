@@ -8,12 +8,15 @@ from player import MissileAlien, MissileVaisseau
 class Alien(Entity):
     
     def __init__(self,game, lives):
-        super().__init__(game,lives,5,0)
+        super().__init__(game,lives,1,0)
         self.compte = 1
         self.comptetire = 0
         self.rand = 1
 
     def update(self):
+        if self.game.getStatus() == "stopped":
+            self.destroy()
+
         canvas=self.game.getCanvas()
         if canvas.coords(self.getObj()) == []:
             return
@@ -29,39 +32,13 @@ class Alien(Entity):
             b.update()
             self.comptetire = 0
 
-        if x1 <= 0 :
-            self.setDx(0)
-
-            if y1 < 30*self.compte:
-                self.setDy(2)
-                return self.update()
-
-            else:
-                self.setDy(0)
-                self.compte+=1
-                self.setDx(5)
-
-        elif x2 >= canvas.winfo_width() :
-            self.setDx(0)
-
-            if y1 < 30*self.compte:
-                
-                self.setDy(2)
-                return self.update()
-
-            else:
-                self.setDy(0)
-                self.compte+=1
-            self.setDx(-5)
-
+        if x1 <= 0 or x2 >= canvas.winfo_width() :
+            self.setDx(-1 * self.getDx())
+            self.game.getCanvas().move(self.getObj(),0,self.getHeight()+5)
         elif y2 > 500 :
             self.destroy()
         self.comptetire += 1
         self.game.getRoot().after(40,lambda : self.update())
-
-    def destroy(self):
-        self.game.removeAlien(self)
-        super().destroy()
 
 class AlienWeak(Alien):
     
@@ -71,10 +48,10 @@ class AlienWeak(Alien):
         self.setObj(obj)
 
     def destroy(self):
-
+        self.game.removeAlien(self)
         print("obj destroyed")
         self.game.getCanvas().delete(self.getObj())
-        self.game.setscore(10)
+        self.game.increaseScore(10)
         del self
     
 class AlienStrong(Alien):
@@ -85,8 +62,9 @@ class AlienStrong(Alien):
         self.setObj(obj)
 
    def destroy(self):
+        self.game.removeAlien(self)
         print("obj destroyed")
         self.game.getCanvas().delete(self.getObj())
-        self.game.setscore(20)
+        self.game.increaseScore(20)
         del self
     
