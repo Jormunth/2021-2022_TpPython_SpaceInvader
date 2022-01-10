@@ -7,11 +7,13 @@ from player import MissileAlien, MissileVaisseau
 
 class Alien(Entity):
     
-    def __init__(self,game, lives):
-        super().__init__(game,lives,1,0)
+    def __init__(self,game, lives, tipe):
+        super().__init__(game,lives,5,0)
+
         self.compte = 1
         self.comptetire = 0
         self.rand = 1
+        self.tipe = tipe
 
     def update(self):
         if self.game.getStatus() == "stopped":
@@ -28,7 +30,7 @@ class Alien(Entity):
             self.rand = randint(10,90)
 
         if self.comptetire == self.rand:
-            b=MissileAlien(self.game,x1,y1)
+            b=MissileAlien(self.game,x1,y1,self.tipe)
             b.update()
             self.comptetire = 0
 
@@ -43,7 +45,7 @@ class Alien(Entity):
 class AlienWeak(Alien):
     
     def __init__(self,game,x,y):
-        super().__init__(game,3)
+        super().__init__(game,3,"weak")
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="#1f1")
         self.setObj(obj)
 
@@ -57,7 +59,7 @@ class AlienWeak(Alien):
 class AlienStrong(Alien):
 
    def __init__(self,game,x,y):
-        super().__init__(game,5)
+        super().__init__(game,5,"strong")
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="green")
         self.setObj(obj)
 
