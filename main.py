@@ -8,29 +8,33 @@ from game import Game
 root=Tk()
 
 def keyDown(event):
-    a = game.getVaisseau()
-    x1,y1,x2,y2 = caneva.coords(a.getObj())
-    if event.char == "q" or event.char == "a":
-        if x1 <= 0:
-            a.setDx(0)
-        else:
-            a.setDx(-10)
-    elif event.char == "d":
-        if x2 >= caneva.winfo_width() :
-            a.setDx(0)
-        else:
-            a.setDx(10)
-    if event.char == " ":
-        b = MissileVaisseau(game,x1+a.getWidth()/2,y1)
-        b.update()
+    if game.getStatus() == "running":
+        a = game.getVaisseau()
+        if caneva.coords(a.getObj()) == []:
+            return
+        x1,y1,x2,y2 = caneva.coords(a.getObj())
+        if event.char == "q" or event.char == "a":
+            if x1 <= 0:
+                a.setDx(0)
+            else:
+                a.setDx(-10)
+        elif event.char == "d":
+            if x2 >= caneva.winfo_width() :
+                a.setDx(0)
+            else:
+                a.setDx(10)
+        if event.char == " ":
+            b = MissileVaisseau(game,x1,y1)
+            b.update()
     
     
 def keyUp(event):
-    a = game.getVaisseau()
-    if event.char == "q" or event.char == "a" and a.getDx() < 0 : 
-        a.setDx(0)
-    if event.char == "d" and a.getDx() > 0 : 
-        a.setDx(0)
+    if game.getStatus() == "running":
+        a = game.getVaisseau()
+        if event.char == "q" or event.char == "a" and a.getDx() < 0 : 
+            a.setDx(0)
+        if event.char == "d" and a.getDx() > 0 : 
+            a.setDx(0)
 
 root.geometry("900x600")
 root.title("Space invader")

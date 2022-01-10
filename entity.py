@@ -43,6 +43,8 @@ class Entity():
         return y2 - y1
 
     def update(self):
+        if self.game.getStatus() == "stopped":
+            self.destroy()
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         self.game.getRoot().after(20,lambda : self.update())
 
@@ -59,8 +61,6 @@ class Entity():
         return True
 
     def destroy(self):
-    
-        print("obj destroyed")
         self.game.getCanvas().delete(self.getObj())
         del self
     

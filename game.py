@@ -9,10 +9,11 @@ class Game():
         self.canvas = canvas
         self.__score = 0
         self.vaisseau = None
+        self.txtScore = txt
+        self.status = "stopped"
         self.__blocs = []
-        self.txt = txt
 
-    def addEntity(self,entity,x,y):
+    def addAlien(self,entity,x,y):
         if entity == "alienW":
             e = AlienWeak(self,x,y)
         elif entity == "alienS":
@@ -22,6 +23,7 @@ class Game():
 
     def addBloc(self,x,y,z):
         b = Bloc(self,self.canvas.winfo_width()/z+x, self.canvas.winfo_height()-y)
+        b.update()
         self.__blocs.append(b)
         print(self.__blocs)
 
@@ -40,16 +42,23 @@ class Game():
     def getAliens(self):
         return self.__aliens
     
-    def setscore(self,score):
-        self.__score += score
-        self.txt.set("score:" + str(self.__score))
+    def increaseScore(self,x):
+        if self.status == "running":
+            self.__score += x
+            self.txtScore.set("score:" + str(self.__score))
+
+    def setScore(self,score):
+        self.__score = score
+        self.txtScore.set("score:" + str(self.__score))
+
+    def updateSpeedAliens(self):
+        for a in self.__aliens:
+            a.setDx( (a.getDx()/abs(a.getDx())) * 10 / len(self.__aliens) )
 
     def removeAlien(self,a):
         self.__aliens.remove(a)
-
-    def destroyAlien(self,a):
-        self.__aliens.remove(a)
-        a.destroy()
+        print(self.__aliens)
+        self.updateSpeedAliens()
     
     def destroyVaisseau(self):
         self.vaisseau.destroy()
@@ -59,31 +68,43 @@ class Game():
         bloc.destroy()
 
     def startGame(self):
-        self.vaisseau = Vaisseau(self, self.canvas.winfo_width()/2-20, self.canvas.winfo_height()-40)
-        self.vaisseau.update()
-        X=10
-        Y=10
-        self.addBloc(5,80,8)
-        self.addBloc(25,80,8)
-        self.addBloc(45,80,8)
-        self.addBloc(5,100,8)
-        self.addBloc(25,100,8)
-        self.addBloc(45,100,8)
-        self.addBloc(-10,80,2)
-        self.addBloc(10,80,2)
-        self.addBloc(30,80,2)
-        self.addBloc(-10,100,2)
-        self.addBloc(10,100,2)
-        self.addBloc(30,100,2)
-        self.addBloc(210,80,2)
-        self.addBloc(230,80,2)
-        self.addBloc(250,80,2)
-        self.addBloc(210,100,2)
-        self.addBloc(230,100,2)
-        self.addBloc(250,100,2)
-        self.addEntity("alienW", X+40,Y)
-        self.addEntity("alienW", X+80,Y)
-        self.addEntity("alienS", X+120,Y)
-        self.addEntity("alienS", X+160,Y)
+        if self.status == "stopped":
+            self.status="running"
+            self.vaisseau = Vaisseau(self, self.canvas.winfo_width()/2-20, self.canvas.winfo_height()-40)
+            self.vaisseau.update()
+            X=10
+            Y=10
+            self.addAlien("alienW", X,Y)
+            self.addAlien("alienW", X+40,Y)
+            self.addAlien("alienW", X+80,Y)
+            self.addAlien("alienS", X+120,Y)
+            self.addAlien("alienS", X+160,Y)
+            self.updateSpeedAliens()
+            self.setScore(0)
+            self.addBloc(5,80,8)
+            self.addBloc(25,80,8)
+            self.addBloc(45,80,8)
+            self.addBloc(5,100,8)
+            self.addBloc(25,100,8)
+            self.addBloc(45,100,8)
+            self.addBloc(-10,80,2)
+            self.addBloc(10,80,2)
+            self.addBloc(30,80,2)
+            self.addBloc(-10,100,2)
+            self.addBloc(10,100,2)
+            self.addBloc(30,100,2)
+            self.addBloc(210,80,2)
+            self.addBloc(230,80,2)
+            self.addBloc(250,80,2)
+            self.addBloc(210,100,2)
+            self.addBloc(230,100,2)
+            self.addBloc(250,100,2)
+        else :
+            print("Game is already running.")
 
+    def getStatus(self):
+            return self.status
 
+    def gameOver(self):
+        self.setScore(0)
+        self.status="stopped"

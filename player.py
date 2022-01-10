@@ -14,6 +14,8 @@ class Vaisseau(Entity):
     def update(self):
         canvas = self.game.getCanvas()
         canvas.move(self.getObj(),self.getDx(),self.getDy())
+        if canvas.coords(self.getObj()) == []:
+            return
         x1,y1,x2,y2 = canvas.coords(self.getObj())
         if x1 < 0 :
             canvas.coords(self.getObj(),0,y1,40,y2)
@@ -46,7 +48,8 @@ class MissileVaisseau(Missile):
         self.setObj(obj)
         
     def update(self):
-        print(self.getDy())
+        if self.game.getStatus() == "gameOver":
+            self.destroy()
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
         for a in self.game.getAliens():
@@ -79,6 +82,8 @@ class MissileAlien(Missile):
         
 
     def update(self):
+        if self.game.getStatus() == "stopped":
+            self.destroy()
 
         if self.tipe == "strong":
 
@@ -101,6 +106,7 @@ class MissileAlien(Missile):
 
         if self.hitbox( self.game.getVaisseau().getObj() ) == True:
             self.game.destroyVaisseau()
+            self.game.gameOver()
             self.destroy()
             return
 
@@ -121,4 +127,7 @@ class Bloc(Entity):
         super().__init__(game,2,0,0)
         obj = self.game.getCanvas().create_rectangle(x,y,x+20,y+20,fill="blue")
         self.setObj(obj)
+
+    def update(self):
+        return super().update()
 
