@@ -21,7 +21,7 @@ def keyDown(event):
         else:
             a.setDx(10)
     if event.char == " ":
-        b = MissileVaisseau(game,x1+a.getWidth()/2,y1,[])
+        b = MissileVaisseau(game,x1+a.getWidth()/2,y1)
         b.update()
     
     
