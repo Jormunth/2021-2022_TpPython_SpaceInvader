@@ -1,5 +1,5 @@
 from alien import AlienWeak, AlienStrong
-from player import Vaisseau
+from player import Bloc, Vaisseau 
 
 class Game():
 
@@ -9,6 +9,7 @@ class Game():
         self.canvas = canvas
         self.__score = 0
         self.vaisseau = None
+        self.__blocs = []
         self.txt = txt
 
     def addEntity(self,entity,x,y):
@@ -19,6 +20,11 @@ class Game():
         self.__aliens.append(e)
         e.update()
 
+    def addBloc(self,x,y,z):
+        b = Bloc(self,self.canvas.winfo_width()/z+x, self.canvas.winfo_height()-y)
+        self.__blocs.append(b)
+        print(self.__blocs)
+
     def getCanvas(self):
         return self.canvas
 
@@ -27,6 +33,9 @@ class Game():
 
     def getVaisseau(self):
         return self.vaisseau
+    
+    def getBlocs(self):
+        return self.__blocs
 
     def getAliens(self):
         return self.__aliens
@@ -45,14 +54,36 @@ class Game():
     def destroyVaisseau(self):
         self.vaisseau.destroy()
 
+    def destroyBloc(self,bloc):
+        self.__blocs.remove(bloc)
+        bloc.destroy()
+
     def startGame(self):
-        self.vaisseau = Vaisseau(self, self.canvas.winfo_width()/2-20, self.canvas.winfo_height()-41)
+        self.vaisseau = Vaisseau(self, self.canvas.winfo_width()/2-20, self.canvas.winfo_height()-40)
         self.vaisseau.update()
         X=10
         Y=10
-        self.addEntity("alienW", X,Y)
+        self.addBloc(5,80,8)
+        self.addBloc(25,80,8)
+        self.addBloc(45,80,8)
+        self.addBloc(5,100,8)
+        self.addBloc(25,100,8)
+        self.addBloc(45,100,8)
+        self.addBloc(-10,80,2)
+        self.addBloc(10,80,2)
+        self.addBloc(30,80,2)
+        self.addBloc(-10,100,2)
+        self.addBloc(10,100,2)
+        self.addBloc(30,100,2)
+        self.addBloc(210,80,2)
+        self.addBloc(230,80,2)
+        self.addBloc(250,80,2)
+        self.addBloc(210,100,2)
+        self.addBloc(230,100,2)
+        self.addBloc(250,100,2)
         self.addEntity("alienW", X+40,Y)
         self.addEntity("alienW", X+80,Y)
         self.addEntity("alienS", X+120,Y)
         self.addEntity("alienS", X+160,Y)
+
 
