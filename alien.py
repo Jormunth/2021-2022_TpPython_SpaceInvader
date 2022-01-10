@@ -1,5 +1,8 @@
 from entity import Entity
 from tkinter import Canvas
+from random import randint
+from player import MissileAlien, MissileVaisseau
+
 
 
 class Alien(Entity):
@@ -7,11 +10,21 @@ class Alien(Entity):
     def __init__(self,game, lives):
         super().__init__(game,lives,5,0,4)
         self.compte = 1
+        self.comptetire = 0
+        self.rand = 1
 
     def update(self):
         canvas=self.game.getCanvas()
         canvas.move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = canvas.coords(self.getObj())
+
+        if self.comptetire == 0:
+            self.rand = randint(10,90)
+
+        if self.comptetire == self.rand:
+            b=MissileAlien(self.game,x1,y1,self.game.getVaisseau().getObj())
+            b.update()
+            self.comptetire = 0
 
         if x1 <= 0 :
             self.setDx(0)
@@ -40,12 +53,12 @@ class Alien(Entity):
 
         elif y2 > 500 :
             self.destroy()
-
+        self.comptetire += 1
         self.game.getRoot().after(40,lambda : self.update())
 
 class AlienWeak(Alien):
     
-    def __init__(self, game,x,y):
+    def __init__(self,game,x,y):
         super().__init__(game,3)
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="#1f1")
         self.setObj(obj)
@@ -59,7 +72,7 @@ class AlienWeak(Alien):
     
 class AlienStrong(Alien):
 
-   def __init__(self, game,x,y):
+   def __init__(self,game,x,y):
         super().__init__(game,10)
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="green")
         self.setObj(obj)
@@ -70,4 +83,3 @@ class AlienStrong(Alien):
         self.game.setscore(20)
         del self
     
-

@@ -1,7 +1,7 @@
 from tkinter import Image, PhotoImage, Tk, Label, Button, Text, StringVar, Frame, Canvas, Entry
 from tkinter.constants import LEFT, RIGHT, TOP, X
 from entity import Entity
-from alien import AlienWeak
+
 
 
 class Vaisseau(Entity):
@@ -35,9 +35,14 @@ class Vaisseau(Entity):
 
 class Missile(Entity):
 
+    def __init__(self,game,x,y,EV):
+        super().__init__(game,1,x,y,EV)
+
+class MissileVaisseau(Missile):
+
     def __init__(self, game, x, y, EV):
-        super().__init__(game,1,0,-17,EV)
-        obj = self.game.getCanvas().create_rectangle(x+5,y+17,x-5,y-17,fill="red")
+        super().__init__(game,0,-10,EV)
+        obj = self.game.getCanvas().create_rectangle(x+23,y+17,x-3+20,y-17,fill="red")
         self.setObj(obj)
         self.EV = EV
         
@@ -56,5 +61,35 @@ class Missile(Entity):
             self.destroy()
             return
 
+        self.game.getRoot().after(5,lambda : self.update())   
+
+class MissileAlien(Missile):
+
+    def __init__(self, game, x, y, EV):
+        super().__init__(game,0,5,EV)
+        obj = self.game.getCanvas().create_oval(x+12,y+30,x+18,y+36, fill= 'yellow')
+        self.setObj(obj)
+        self.EV = EV
+
+    def update(self):
+        self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
+        #x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
+        #tagV = self.game.getCanvas().find_overlapping(self.game.getVaisseau().getObj())
+        #if tagV in self.game.getCanvas().find_overlapping(x1,y1,x2,y2):
+            #self.game.destroyVaisseau()
+            #self.destroy()
+            #return
+        if self.hitbox(self.EV) == True:
+            self.game.destroyVaisseau()
+            self.destroy()
+            return
+        
         self.game.getRoot().after(5,lambda : self.update())
 
+
+class Bloc(Entity):
+
+    def __init__(self, game, x, y):
+        super().__init__(game,2,0,0,0)
+        obj = self.game.getCanvas().create_rectangle(x,y,x+40,y+40,fill="orange")
+        self.setObj(obj)

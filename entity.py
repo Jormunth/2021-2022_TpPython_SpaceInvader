@@ -63,17 +63,17 @@ class Entity():
     # returns (true/false, the alien)
     def hitbox(self,x):
         if self.game.getCanvas().coords(self.getObj()) == []:
-            return (False,)
+            return False
         else:
             x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
        
         if self.game.getCanvas().coords(x) == []:
-            return (False,)
+            return False
         else:
             a1,b1,a2,b2 = self.game.getCanvas().coords(x)
         
         if x1 < a2 and x2 > a1 and y1 < b2 and y2 > b1:
-            return (True,x)
+            return True
 
     def tuer(self,p):
         self.game.getCanvas().delete(p)
