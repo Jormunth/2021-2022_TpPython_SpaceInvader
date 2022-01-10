@@ -66,12 +66,22 @@ class MissileVaisseau(Missile):
 class MissileAlien(Missile):
 
     def __init__(self, game, x, y, EV):
-        super().__init__(game,0,5,EV)
-        obj = self.game.getCanvas().create_oval(x+12,y+30,x+18,y+36, fill= 'yellow')
+        super().__init__(game,0,3,EV)
+        obj = self.game.getCanvas().create_oval(x+10,y+30,x+20,y+36, fill= 'yellow')
         self.setObj(obj)
         self.EV = EV
 
     def update(self):
+
+        if self.game.getCanvas().coords(self.EV) != []:
+            a1,b1,a2,b2 = self.game.getCanvas().coords(self.EV)
+            a = a1 + 15
+            x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
+            x = x1 + 6
+            l = a - x 
+            self.setDx(l*3/abs(l))
+       
+
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         #x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
         #tagV = self.game.getCanvas().find_overlapping(self.game.getVaisseau().getObj())
@@ -83,7 +93,7 @@ class MissileAlien(Missile):
             self.game.destroyVaisseau()
             self.destroy()
             return
-        
+        self.setDx(0)
         self.game.getRoot().after(5,lambda : self.update())
 
 
