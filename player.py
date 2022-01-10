@@ -66,35 +66,39 @@ class MissileVaisseau(Missile):
 class MissileAlien(Missile):
 
 
-    def __init__(self, game, x, y):
+    def __init__(self, game, x, y, tipe):
         super().__init__(game,0,3)
-        obj = self.game.getCanvas().create_oval(x+12,y+30,x+18,y+36, fill= 'yellow')
+        self.tipe = tipe
+        col = "yellow"
+        size = 9
+        if self.tipe == "strong":
+            col ="pink"
+            size = 6
+        obj = self.game.getCanvas().create_oval(x+12,y+30,x+12+size,y+30+size, fill= col)
         self.setObj(obj)
+        
 
     def update(self):
 
-        if self.game.getCanvas().coords(self.game.getVaisseau().getObj()) != []:
-            a1,b1,a2,b2 = self.game.getCanvas().coords(self.game.getVaisseau().getObj())
-            a = a1 + 15
-            x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
-            x = x1 + 6
-            l = a - x 
-            if l!= 0:
-                self.setDx(l*3/abs(l))
-            else:
-                self.setDx(0)
+        if self.tipe == "strong":
 
-        else:
-            self.destroy()
-            return
+            if self.game.getCanvas().coords(self.game.getVaisseau().getObj()) != []:
+                a1,b1,a2,b2 = self.game.getCanvas().coords(self.game.getVaisseau().getObj())
+                a = a1 + 15
+                x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
+                x = x1 + 6
+                l = a - x 
+                if l!= 0:
+                    self.setDx(l*3/abs(l))
+                else:
+                    self.setDx(0)
+
+            else:
+                self.destroy()
+                return
 
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
-        #x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
-        #tagV = self.game.getCanvas().find_overlapping(self.game.getVaisseau().getObj())
-        #if tagV in self.game.getCanvas().find_overlapping(x1,y1,x2,y2):
-            #self.game.destroyVaisseau()
-            #self.destroy()
-            #return
+
         if self.hitbox( self.game.getVaisseau().getObj() ) == True:
             self.game.destroyVaisseau()
             self.destroy()
@@ -108,7 +112,7 @@ class MissileAlien(Missile):
                 return
 
         self.setDx(0)
-        self.game.getRoot().after(5,lambda : self.update())
+        self.game.getRoot().after(20,lambda : self.update())
 
 
 class Bloc(Entity):
