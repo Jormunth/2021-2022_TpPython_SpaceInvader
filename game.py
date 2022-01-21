@@ -4,8 +4,21 @@ import tkinter.font as tkFont
 from tkinter import PhotoImage
 from random import randint
 
+# Cette classe permet de gerer une partie de space inavader.
+# Attributs:
+#     - root : <tkinter.Tk> fenetre principale
+#     - canvas : <tkinter.Canvas>
+#     - aliens : List(<Alien>)
+#     - score : <int>
+#     - vaisseau : <Vaisseau>
+#     - txtScore : <StringVar>
+#     - txtLives : <StringVar>
+#     - status : <str>
+#     - blocs : List(<Bloc>)
+#     - compte : <int> nombre d'aliens
+#     - txtDisplay : <tkinter.Canvas.Text> texte d'information = (Game Over, Welcome)
 class Game():
-
+    # initialise la partie
     def __init__(self,root,canvas,txtScore,txtLives):
         self.__aliens = []
         self.root = root
@@ -20,6 +33,7 @@ class Game():
         f = tkFont.Font(family='Helvetica', size=36, weight='bold')
         self.txtDisplay = self.canvas.create_text(400,250,text="Welcome",fill="white",font=f,justify="center")
 
+    # detruit tous les vaisseux aliens (pas les missiles)
     def cheatCode(self):
         print(self.__aliens)
         if self.status == "running":
@@ -62,18 +76,22 @@ class Game():
     def getAliens(self):
         return self.__aliens
     
+    # augmente le score par x
     def increaseScore(self,x):
         if self.status == "running":
             self.__score += x
             self.txtScore.set("score:" + str(self.__score))
 
+    # met a jour le nombre de vie sur le canvas
     def updateLives(self):
         self.txtLives.set("Lives:" + str(self.vaisseau.getLives()))
 
+    # change le score et l'affiche
     def setScore(self,score):
         self.__score = score
         self.txtScore.set("score:" + str(self.__score))
 
+    # change la vitesse des aliens en fonctions du nombre total d'aliens (encore des bugs)
     def updateSpeedAliens(self):
         for a in self.__aliens:
             a.setDx( (a.getDx()/abs(a.getDx())) * 10 / len(self.__aliens) )
@@ -90,6 +108,7 @@ class Game():
         self.__blocs.remove(bloc)
         bloc.destroy()
 
+    # Commence la partie, spawn le vaisseau, plusieurs aliens, et des blocs de protection.
     def startGame(self):
         if self.status == "stopped":
             self.status="running"
@@ -125,11 +144,14 @@ class Game():
     def getStatus(self):
             return self.status
 
+    # Fini la partie, le joueur peut recommencer en cliquant sur start.
+    # set le status a "stopped", sur le prochain update les objets se detruiront par eux memes
     def gameOver(self):
         self.status="stopped"
         f = tkFont.Font(family='Helvetica', size=36, weight='bold')
         self.txtDisplay = self.canvas.create_text(400,250,text="Game Over",fill="red",font=f,justify="center")
 
+    # Spawn les premiers Aliens
     def spawnAliens(self):
         X=10
         Y=10
@@ -144,6 +166,7 @@ class Game():
         self.addAlien("alienW", X+160,Y)
         self.compte+=1
 
+    #  Spawn un Alien
     def spawn2(self):
         X=10
         Y=10
@@ -155,8 +178,7 @@ class Game():
             self.addAlien("alienS", X,Y)
             self.compte+=1
         
-
-
+    # Fait apparaitre un alien toute les "rep" millisecondes.
     def update(self):
         if self.status == "running":
             rep= 1000*self.compte
