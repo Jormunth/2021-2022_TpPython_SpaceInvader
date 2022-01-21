@@ -6,18 +6,26 @@ from random import randint
 
 class Game():
 
-    def __init__(self,root,canvas,txt):
+    def __init__(self,root,canvas,txtScore,txtLives):
         self.__aliens = []
         self.root = root
         self.canvas = canvas
         self.__score = 0
         self.vaisseau = None
-        self.txtScore = txt
+        self.txtScore = txtScore
+        self.txtLives = txtLives
         self.status = "stopped"
         self.__blocs = []
         self.compte = 0
         f = tkFont.Font(family='Helvetica', size=36, weight='bold')
         self.txtDisplay = self.canvas.create_text(400,250,text="Welcome",fill="white",font=f,justify="center")
+
+    def cheatCode(self):
+        print(self.__aliens)
+        if self.status == "running":
+            while self.__aliens:
+                self.__aliens[0].destroy()
+        print(self.__aliens)
 
     def addAlien(self,entity,x,y):
         if entity == "alienW":
@@ -59,6 +67,9 @@ class Game():
             self.__score += x
             self.txtScore.set("score:" + str(self.__score))
 
+    def updateLives(self):
+        self.txtLives.set("Lives:" + str(self.vaisseau.getLives()))
+
     def setScore(self,score):
         self.__score = score
         self.txtScore.set("score:" + str(self.__score))
@@ -89,6 +100,7 @@ class Game():
             self.update()
             self.updateSpeedAliens()
             self.setScore(0)
+            self.updateLives()
             self.addBloc(5,80,8)
             self.addBloc(25,80,8)
             self.addBloc(45,80,8)

@@ -34,6 +34,8 @@ def keyDown(event):
         b = MissileVaisseau(game,x1,y1)
         b.update()
     
+    if event.char == "j":
+        game.cheatCode()
     
 def keyUp(event):
     #fonction qui s'active au relachement d'une touche et permet de stopper le 
@@ -58,7 +60,9 @@ frame.pack(side='top')
 text1 = StringVar()
 text1.set("score: 0")
 Lab1= Label(frame, textvariable=text1).pack(side='left')
-Lab2= Label(frame,text="lives").pack(side='right')
+text2 = StringVar()
+text2.set("Lives: 3")
+Lab2= Label(frame, textvariable=text2).pack(side='right')
 
 #creation du canvas avec l'image de fond "fond"
 caneva=Canvas(root, height=500, width=800)
@@ -66,7 +70,7 @@ caneva.create_image(0,0, image=fond, anchor="nw")
 caneva.pack(side=LEFT)
 
 #creation de l'objet game
-game = Game(root,caneva,text1)
+game = Game(root,caneva,text1,text2)
 
 root.bind("<Key>", keyDown)
 root.bind("<KeyRelease>", keyUp)

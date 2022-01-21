@@ -31,11 +31,22 @@ class Vaisseau(Entity):
         
         self.game.getRoot().after(20,lambda : self.update())
         
+    def getLives(self):
+        return self.lives
+
+    def removeLives(self, x):
+        self.lives -= x
+        self.game.updateLives()
+        print(self.lives)
+        if self.lives == 0:
+            self.destroy()
+
     def destroy(self):
         print("obj destroyed")
-        # game.gameOver()
+        self.game.gameOver()
         self.game.getCanvas().delete(self.getObj())
         del self
+
 #les class MissileVaisseaux et MissileAlien permettent de gerer la trajectoire des missiles des 
 #entites respectives
 class Missile(Entity):
@@ -110,10 +121,9 @@ class MissileAlien(Missile):
                 return
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         
-        #repere si le missile est sur le vaisseaux et le détruit
+        #repere si le missile est sur le vaisseau et le détruit
         if self.hitbox( self.game.getVaisseau().getObj() ) == True:
-            self.game.destroyVaisseau()
-            self.game.gameOver()
+            self.game.getVaisseau().removeLives(1)
             self.destroy()
             return
         #repere si le missile est sur un bloc et le détruit
