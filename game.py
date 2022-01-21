@@ -116,7 +116,7 @@ class Game():
     def gameOver(self):
         self.status="stopped"
         f = tkFont.Font(family='Helvetica', size=36, weight='bold')
-        self.txtDisplay = self.canvas.create_text(300,200,text="Game Over",fill="red",font=f,justify="center")
+        self.txtDisplay = self.canvas.create_text(400,250,text="Game Over",fill="red",font=f,justify="center")
 
     def spawnAliens(self):
         X=10
