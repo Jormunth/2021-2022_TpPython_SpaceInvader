@@ -27,7 +27,7 @@ class Alien(Entity):
         x1,y1,x2,y2 = canvas.coords(self.getObj())
 
         if self.comptetire == 0:
-            self.rand = randint(10,90)
+            self.rand = randint(40,100)
 
         if self.comptetire == self.rand:
             b=MissileAlien(self.game,x1,y1,self.tipe)
@@ -45,7 +45,7 @@ class Alien(Entity):
 class AlienWeak(Alien):
     
     def __init__(self,game,x,y):
-        super().__init__(game,3,"weak")
+        super().__init__(game,2,"weak")
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="#1f1")
         self.setObj(obj)
 
@@ -54,12 +54,13 @@ class AlienWeak(Alien):
         print("obj destroyed")
         self.game.getCanvas().delete(self.getObj())
         self.game.increaseScore(10)
+        self.game.resetCompte()
         del self
     
 class AlienStrong(Alien):
 
    def __init__(self,game,x,y):
-        super().__init__(game,5,"strong")
+        super().__init__(game,4,"strong")
         obj = self.game.getCanvas().create_rectangle(x,y,x+30,y+30,fill="green")
         self.setObj(obj)
 
@@ -68,5 +69,6 @@ class AlienStrong(Alien):
         print("obj destroyed")
         self.game.getCanvas().delete(self.getObj())
         self.game.increaseScore(20)
+        self.game.resetCompte()
         del self
     

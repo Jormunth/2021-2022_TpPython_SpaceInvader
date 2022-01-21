@@ -2,15 +2,20 @@ from tkinter import Image, PhotoImage, Tk, Label, Button, Text, StringVar, Frame
 from tkinter.constants import LEFT, RIGHT, TOP, X
 from entity import Entity
 
-
+#class enfant de entity contenant les class vaisseaux et missiles
 
 class Vaisseau(Entity):
 
     def __init__(self, game, x, y):
+        #initialisation de la classe vaisseaux
         super().__init__(game,3,0,0)
         obj = self.game.getCanvas().create_rectangle(x,y,x+40,y+40,fill="orange")
         self.setObj(obj)
         
+        
+        #fonction update prend en entré un objet(Obj)
+        #update modifie la trajectoire d'un canvas objets de classe vaiseau en le déplacant selon x ou Y puis en 
+        #réitérant la fonction au bout de 20 ms
     def update(self):
         canvas = self.game.getCanvas()
         canvas.move(self.getObj(),self.getDx(),self.getDy())
