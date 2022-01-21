@@ -10,9 +10,16 @@ class Vaisseau(Entity):
         super().__init__(game,3,0,0)
         obj = self.game.getCanvas().create_rectangle(x,y,x+40,y+40,fill="orange")
         self.setObj(obj)
-        
-        #update modifie la trajectoire d'un canvas objets de classe vaiseau en le déplacant selon x ou Y puis en 
-        #réitérant la fonction au bout de 20 ms
+        self.__canShoot = 0
+
+    def setCanShoot(self,s):
+        self.__canShoot = s
+
+    def getCanShoot(self):
+        return self.__canShoot
+
+    # update modifie la trajectoire d'un canvas objets de classe vaiseau en le déplacant selon x ou Y puis en 
+    # réitérant la fonction au bout de 20 ms
     def update(self):
         canvas = self.game.getCanvas()
         canvas.move(self.getObj(),self.getDx(),self.getDy())
@@ -28,7 +35,11 @@ class Vaisseau(Entity):
         if y2 > canvas.winfo_height() :
             canvas.coords(self.getObj(),x1,460,x2,500)
 
-        
+        if self.__canShoot > 0 :
+            if self.__canShoot > 4:
+                self.__canShoot = 0
+            else:
+                self.__canShoot +=1
         self.game.getRoot().after(20,lambda : self.update())
         
     def getLives(self):
@@ -60,13 +71,13 @@ class MissileVaisseau(Missile):
         super().__init__(game,0,-10)
         obj = self.game.getCanvas().create_rectangle(x+23,y+17,x-3+20,y-17,fill="red")
         self.setObj(obj)
-    #fonction qui permet de deplacer le missile vers le haut 
-    #si le missile touche un Alien il le détruit et se détruit
-    #la fonction est relancer au bout de 5 ms
+    # fonction qui permet de deplacer le missile vers le haut 
+    # si le missile touche un Alien il le détruit et se détruit
+    # la fonction est relancer au bout de 5 ms 
     def update(self):
         if self.game.getStatus() == "gameOver":
             self.destroy()
-        #permet de voir si le missile est sur l'Alien
+        # permet de voir si le missile est sur l'Alien
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
         for a in self.game.getAliens():
