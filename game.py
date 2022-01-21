@@ -1,6 +1,8 @@
 from alien import AlienWeak, AlienStrong
 from player import Bloc, Vaisseau 
 import tkinter.font as tkFont
+from tkinter import PhotoImage
+from random import randint
 
 class Game():
 
@@ -13,8 +15,9 @@ class Game():
         self.txtScore = txt
         self.status = "stopped"
         self.__blocs = []
+        self.compte = 0
         f = tkFont.Font(family='Helvetica', size=36, weight='bold')
-        self.txtDisplay = self.canvas.create_text(300,200,text="Welcome",fill="white",font=f,justify="center")
+        self.txtDisplay = self.canvas.create_text(400,250,text="Welcome",fill="white",font=f,justify="center")
 
     def addAlien(self,entity,x,y):
         if entity == "alienW":
@@ -41,6 +44,12 @@ class Game():
     
     def getBlocs(self):
         return self.__blocs
+    
+    def getCompte(self):
+        return self.compte
+
+    def resetCompte(self):
+        self.compte = self.compte-1
 
     def getAliens(self):
         return self.__aliens
@@ -76,6 +85,7 @@ class Game():
             self.canvas.delete(self.txtDisplay)
             self.vaisseau = Vaisseau(self, self.canvas.winfo_width()/2-20, self.canvas.winfo_height()-40)
             self.vaisseau.update()
+            self.spawnAliens()
             self.update()
             self.updateSpeedAliens()
             self.setScore(0)
@@ -106,18 +116,38 @@ class Game():
     def gameOver(self):
         self.status="stopped"
         f = tkFont.Font(family='Helvetica', size=36, weight='bold')
-        self.txtDisplay = self.canvas.create_text(300,200,text="Game Over",fill="red",font=f,justify="center")
+        self.txtDisplay = self.canvas.create_text(400,250,text="Game Over",fill="red",font=f,justify="center")
 
     def spawnAliens(self):
         X=10
         Y=10
         self.addAlien("alienW", X,Y)
+        self.compte+=1
         self.addAlien("alienW", X+40,Y)
+        self.compte+=1
         self.addAlien("alienS", X+80,Y)
+        self.compte+=1
         self.addAlien("alienW", X+120,Y)
+        self.compte+=1
         self.addAlien("alienW", X+160,Y)
+        self.compte+=1
+
+    def spawn2(self):
+        X=10
+        Y=10
+        x = randint(0,10)
+        if x>=3:
+            self.addAlien("alienW", X,Y)
+            self.compte+=1
+        else:
+            self.addAlien("alienS", X,Y)
+            self.compte+=1
+        
+
 
     def update(self):
         if self.status == "running":
-            self.spawnAliens()
-            self.getRoot().after(6000,lambda : self.update())
+            rep= 1000*self.compte
+            if self.compte<=10:
+                self.spawn2()
+            self.getRoot().after(rep,lambda : self.update())
