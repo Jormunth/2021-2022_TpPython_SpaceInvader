@@ -31,8 +31,10 @@ def keyDown(event):
         else:
             a.setDx(10)
     if event.char == " ":
-        b = MissileVaisseau(game,x1,y1)
-        b.update()
+        if game.getVaisseau().getCanShoot() == 0:
+            b = MissileVaisseau(game,x1,y1)
+            b.update()
+            game.getVaisseau().setCanShoot(1)
     
     if event.char == "j":
         game.cheatCode()
@@ -52,7 +54,7 @@ root.geometry("900x600")
 root.title("Space invader")
 root.config(bg="BLACK")   
 #instanciation du fond d'écran du canvas 
-fond=PhotoImage(file='plane-img.gif')
+fond=PhotoImage(file='images/plane-img.gif')
 frame=Frame(root, background="yellow",)
 frame.pack(side='top')
 
