@@ -11,3 +11,5 @@ to do list:
 - améliorer l'interface graphique
 - optimiser le programme, en minimisant les fonctions update(ex: une seule fonction update appele en boucle)
 
+lien git-hub:
+https://github.com/Jormunth/2021-2022_TpPython_SpaceInvader
