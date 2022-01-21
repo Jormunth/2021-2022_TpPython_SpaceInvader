@@ -8,7 +8,6 @@ from tkinter.constants import LEFT, RIGHT, TOP
 from player import MissileVaisseau
 from game import Game
 
-
 root=Tk()
 
 # Fonction qui se déclenche lors de l'appuie d'une touche et qui permet de tirer et déplacer le vaisseau.

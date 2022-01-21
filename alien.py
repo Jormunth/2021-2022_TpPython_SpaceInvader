@@ -1,4 +1,4 @@
-#Contient la class alien class enfant de entity qui permet de gerer le 
+#Contient la classe alien class enfant de entity qui permet de gerer le 
 #deplacement des objets Alien et leurs comportements
 
 from entity import Entity

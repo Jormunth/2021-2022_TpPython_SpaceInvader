@@ -1,8 +1,9 @@
 from tkinter.constants import X
 
-#cette class permet de gérer les entités tel que les vaisseaux, les missiles et les blocs
-#chaque objet est définie par un nombre de vie, des vitesse de déplacement dx et dy et d'un objet 
-#Qui permettra l'affichage sur le canvas
+# Cette classe permet de gérer les entités tel que les vaisseaux, les missiles et les blocs
+# chaque objet est définie par un nombre de vie, des vitesse de déplacement dx et dy 
+# et d'un objet qui permettra l'affichage sur le canvas.
+# Cette classe permet de leguer des fonctions et attributs pres definit pour toutes les entites.
 class Entity():
     
     def __init__(self,game,lives,dx,dy):
