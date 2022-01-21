@@ -1,6 +1,8 @@
 from tkinter.constants import X
 
-
+#cette class permet de gérer les entités tel que les vaisseaux, les missiles et les blocs
+#chaque objet est définie par un nombre de vie, des vitesse de déplacement dx et dy et d'un objet 
+#Qui permettra l'affichage sur le canvas
 class Entity():
     
     def __init__(self,game,lives,dx,dy):
@@ -43,12 +45,15 @@ class Entity():
         return y2 - y1
 
     def update(self):
+        #fonction qui permet de bouger l'entité et qui repeter au bout d'un certains temps
         if self.game.getStatus() == "stopped":
             self.destroy()
         self.game.getCanvas().move(self.getObj(),self.getDx(),self.getDy())
         self.game.getRoot().after(20,lambda : self.update())
 
     def inBounds(self):
+        #fonction qui check si un objet entity est à l'exterieur du canvas
+        #retourne False si c'est le cas sinon True
         if self.game.getCanvas().coords(self.getObj()) == []:
             return True
         x1,y1,x2,y2 = self.game.getCanvas().coords(self.getObj())
@@ -61,17 +66,20 @@ class Entity():
         return True
 
     def destroy(self):
+        #fonction qui détruit un objet sur le canvas
         self.game.getCanvas().delete(self.getObj())
         del self
     
     def removeLives(self, x):
+        #fonction qui retire une vies à l'entité et la détruit si sa vie est à 0
         self.lives -= x
         print(self.lives)
         if self.lives == 0:
             self.destroy()
 
-    # Returns true if the self is on top of an alien
     def hitbox(self,x):
+        #cette fonction prend un autre objet en entrée et regarde si cet objet est sur l'objet entité 
+        #il retourne True si c'est le cas
         if self.game.getCanvas().coords(self.getObj()) == []:
             return False
         else:
